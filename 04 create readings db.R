@@ -37,7 +37,11 @@ liturgy_verses$chapter <- as.integer(liturgy_verses$chapter)
 liturgy_verses <- left_join(liturgy_verses, select(bt, id, part, book))
 liturgy_verses <- liturgy_verses |>  arrange(id, chapter) |> as.data.frame() |> select(id, book, part, chapter, verses, v.count)
 
+<<<<<<< HEAD
 #  *************** COMPARE BY CHAPTER ************ 
+=======
+#  ************  COMPARE BY CHAPTER ************ 
+>>>>>>> 33a1c7c9265e820aba9a9251352c41e0120b3e7c
 
 lit_ver_by_chpt <- liturgy_verses %>%
   group_by(id, part, book, chapter) %>%
@@ -54,20 +58,32 @@ compare_by_chpt <-  bt_by_chapter  |>
   rename(v_Bible = v_count.x, v_liturgy = v_count.y) |> select(id, part, book, chapter, v_Bible, v_liturgy, verses)
 
 compare_by_chpt <- compare_by_chpt  |> mutate(v_liturgy = replace_na(v_liturgy, 0),
+<<<<<<< HEAD
                                               perc.vers = round(v_liturgy/v_Bible*100,1)) |> 
                                        select(1:6,8,7) |> arrange()
+=======
+                                                   perc.vers = round(v_liturgy/v_Bible*100,1)) |> select(1:6,8,7) |> 
+                                      arrange()
+>>>>>>> 33a1c7c9265e820aba9a9251352c41e0120b3e7c
 
 # ************ COMPARE BY BOOK ************ 
 
 # df with combined counts of chapters and verses in the liturgy
 
 lit_ver_by_book <- liturgy_verses |>  group_by(id, book) |> 
+<<<<<<< HEAD
                                       summarise(ch_count = n_distinct(chapter)) |> arrange(id)
 
 lit_ver_by_book  <- lit_ver_by_chpt |> group_by(book) |> 
                                        summarise(v_count = sum(v_count), .groups = "drop") |> 
                                        left_join(lit_ver_by_book |> select(id, book, ch_count)) |> 
                                        arrange(id) |> select(3,1,4,2)
+=======
+  summarise(ch_count = n_distinct(chapter)) |> arrange(id)
+
+lit_ver_by_book  <- lit_ver_by_chpt |> group_by(book) |> summarise(v_count = sum(v_count), .groups = "drop") |> 
+  left_join(lit_ver_by_book |> select(id, book, ch_count)) |> arrange(id) |> select(3,1,4,2)
+>>>>>>> 33a1c7c9265e820aba9a9251352c41e0120b3e7c
 
 # combine counts for the Bible and liturgical readings
 
@@ -78,6 +94,7 @@ compare_by_book <- bt |> select(id, part, book, ch_count, v_count) |>
                                   ch_liturgy = ch_count.y,
                                   v_liturgy = v_count.y) |> 
                          mutate(ch_liturgy = replace_na(ch_liturgy, 0),
+<<<<<<< HEAD
                                   v_liturgy = replace_na(v_liturgy, 0),
                                   perc_chpt = round(ch_liturgy/ch_Bible*100,1),
                                   perc_vers = round(v_liturgy/v_Bible*100,1),) |> 
@@ -86,12 +103,26 @@ compare_by_book <- bt |> select(id, part, book, ch_count, v_count) |>
 rm(books, chapters, str, verses_list, i)
 
 
+=======
+                                v_liturgy = replace_na(v_liturgy, 0),
+                                perc_chpt = round(ch_liturgy/ch_Bible*100,1),
+                                perc_vers = round(v_liturgy/v_Bible*100,1),) |> 
+                        select(1:3,4,6,8,5,7,9)
+
+rm(books, chapters, str, verses_list, i)
+
+>>>>>>> 33a1c7c9265e820aba9a9251352c41e0120b3e7c
 # basic stats
 
 compare_by_part <- compare_by_book  |> group_by(part) |> summarise(tot_v_Bible = sum(v_Bible),
                                                 tot_v_lit = sum(v_liturgy),
                                                 tot_ch_Bible = sum(ch_Bible),
+<<<<<<< HEAD
                                                 tot_ch_lit = sum(ch_liturgy), .groups = "drop") |> 
+=======
+                                                tot_ch_lit = sum(ch_liturgy)
+                                                , .groups = "drop") |> 
+>>>>>>> 33a1c7c9265e820aba9a9251352c41e0120b3e7c
                                         mutate(perc_vers = round(tot_v_lit/tot_v_Bible*100, 1),
                                                perc_chpt = round(tot_ch_lit/tot_ch_Bible*100, 1)) |> 
                                         as.data.frame() |> select(1,4,5,7,2,3,6) |> arrange(desc(part))

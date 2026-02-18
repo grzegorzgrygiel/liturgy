@@ -19,6 +19,10 @@ get_verse_numbers <- function(n) {
   }
   
   doc <- htmlParse(webpage, asText = TRUE)
+<<<<<<< HEAD
+=======
+  
+>>>>>>> 33a1c7c9265e820aba9a9251352c41e0120b3e7c
   book <- xpathSApply(doc,"//div[@class='book-label']", xmlValue)
   chapter <- xpathSApply(doc, "//div[@class='initial-letter']", xmlValue)
   verses <- xpathSApply(doc, "//a[starts-with(@name,'W')]", xmlGetAttr, "name")
@@ -63,7 +67,11 @@ names(bt_by_chapter)[3] <- "v_count"
 '
 
 url <- "https://biblia.deon.pl/menu.php?st_id=4"
+<<<<<<< HEAD
 page <- read_html(url, encoding = "ISO-8859-2")  
+=======
+page <- read_html(url, encoding = "ISO-8859-2")  # Polish Latin-2 encoding
+>>>>>>> 33a1c7c9265e820aba9a9251352c41e0120b3e7c
 rows <- page |> html_elements("table tr") 
 
 res2 <- lapply(rows[1:37], function(row) {
@@ -128,7 +136,11 @@ check_missing_chapters <- function(df) {
 
 check_missing_chapters(bt_by_chapter )
 
+<<<<<<< HEAD
 # add missing rows manually
+=======
+# add missing rows
+>>>>>>> 33a1c7c9265e820aba9a9251352c41e0120b3e7c
 # Hi 9, 35
 # Hi 28, 28
 # Syr 6, 37
@@ -153,3 +165,9 @@ bt <- bt_by_chapter |> group_by(book) |>
                         arrange(id) |> select(4,5,1,6,2,3)
 
 rm(df, url, missing_verses, st, nt, res, res2, page, ids, nulls, rows)
+<<<<<<< HEAD
+=======
+
+
+save(compare_by_book, compare_by_chpt, file = "outputs_github/compare_files.RData")
+>>>>>>> 33a1c7c9265e820aba9a9251352c41e0120b3e7c
