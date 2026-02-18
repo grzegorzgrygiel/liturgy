@@ -35,7 +35,7 @@ get_verse_numbers <- function(n) {
 }
 
 # BT urls https://biblia.deon.pl/rozdzial.php?id= range from 1:1401
-# but 76 numbers in this range don't correspond to valid pages
+# 76 numbers in this range don't correspond to valid pages
 
 ids <- c(1:1401)
 

@@ -84,7 +84,7 @@ verses_2 <- c(verses[indeksy])
 
 new_verses <- c()
 
-# remove the part after --
+# remove the part after –
 
 for (i in indeksy) {
   

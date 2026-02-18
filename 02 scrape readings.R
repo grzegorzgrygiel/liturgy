@@ -109,7 +109,7 @@ scrape_readings <- function(year) {
                             ".//p[contains(@class, 'text-left') and contains(., 'Nowy lekcjonarz:')]", 
                             xmlValue)
     
-    # Clean and combined different sets of readings
+    # Clean and combine different sets of readings
     if(length(readings) > 0) {
       
       readings <- gsub("^\\s*Nowy lekcjonarz:\\s*", "", trimws(readings))

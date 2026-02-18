@@ -85,6 +85,7 @@ compare_by_book <- bt |> select(id, part, book, ch_count, v_count) |>
 
 rm(books, chapters, str, verses_list, i)
 
+
 # basic stats
 
 compare_by_part <- compare_by_book  |> group_by(part) |> summarise(tot_v_Bible = sum(v_Bible),
