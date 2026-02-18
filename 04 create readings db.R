@@ -37,7 +37,7 @@ liturgy_verses$chapter <- as.integer(liturgy_verses$chapter)
 liturgy_verses <- left_join(liturgy_verses, select(bt, id, part, book))
 liturgy_verses <- liturgy_verses |>  arrange(id, chapter) |> as.data.frame() |> select(id, book, part, chapter, verses, v.count)
 
-#  ************  COMPARE BY CHAPTER ************ 
+#  *************** COMPARE BY CHAPTER ************ 
 
 lit_ver_by_chpt <- liturgy_verses %>%
   group_by(id, part, book, chapter) %>%

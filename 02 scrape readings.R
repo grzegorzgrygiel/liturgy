@@ -104,7 +104,7 @@ scrape_readings <- function(year) {
     date <- xpathSApply(node, ".//h3[contains(@class, 'color')] ", xmlValue)
     status <- xpathSApply(node, ".//p[contains(@class, 'text-left mb-2')] ", xmlValue)
     
-    # All cases of Nowy lekcjonarz (1 or 2 sets)
+    # All cases of Nowy lekcjonarz (1 or more sets)
     readings <- xpathSApply(node, 
                             ".//p[contains(@class, 'text-left') and contains(., 'Nowy lekcjonarz:')]", 
                             xmlValue)
