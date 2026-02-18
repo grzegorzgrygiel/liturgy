@@ -94,40 +94,25 @@ clean_readings <- function(raw_items) {
 scrape_readings <- function(year) {
   
   url <- paste0("https://niezbednik.niedziela.pl/liturgia/", year, "-", '01')
-<<<<<<< HEAD
   webpage <- readLines(url)
   doc <- htmlParse(webpage, asText = TRUE)
   
   ids <- xpathSApply(doc, "//div[@class='card mb-2']", xmlGetAttr, "id")
-=======
-  
-  webpage <- readLines(url)
-  
-  doc <- htmlParse(webpage, asText = TRUE)
-  
-  ids <- xpathSApply(doc, "//div[@class='card mb-2']", xmlGetAttr, "id")
-  
->>>>>>> 33a1c7c9265e820aba9a9251352c41e0120b3e7c
+
   node <- paste0("//div[contains(@class, 'card') and contains(@id, '", year, "')]")
   
   liturgy_items <- xpathSApply(doc, node, function(node) {
     date <- xpathSApply(node, ".//h3[contains(@class, 'color')] ", xmlValue)
     status <- xpathSApply(node, ".//p[contains(@class, 'text-left mb-2')] ", xmlValue)
     
-<<<<<<< HEAD
-    # All cases of Nowy lekcjonarz (1 or more sets)
-=======
-    # All cases of Nowy lekcjonarz (1 or 2 sets)
->>>>>>> 33a1c7c9265e820aba9a9251352c41e0120b3e7c
+  # All cases of Nowy lekcjonarz (1 or more sets)
+
     readings <- xpathSApply(node, 
                             ".//p[contains(@class, 'text-left') and contains(., 'Nowy lekcjonarz:')]", 
                             xmlValue)
     
-<<<<<<< HEAD
     # Clean and combine different sets of readings
-=======
-    # Clean and combined diffrent sets of readings
->>>>>>> 33a1c7c9265e820aba9a9251352c41e0120b3e7c
+
     if(length(readings) > 0) {
       
       readings <- gsub("^\\s*Nowy lekcjonarz:\\s*", "", trimws(readings))
@@ -142,10 +127,7 @@ scrape_readings <- function(year) {
       } else {
         readings_combined <- readings[1]
       }
-<<<<<<< HEAD
-=======
-      
->>>>>>> 33a1c7c9265e820aba9a9251352c41e0120b3e7c
+
       paste(date, status, readings_combined, sep = "/ ")
     }
   })
@@ -169,7 +151,6 @@ liturgical_readings <- setNames(lapply(2022:2025, scrape_readings),
 # create liturgical years
 
 '
-<<<<<<< HEAD
 year 2022/2023 - A, 
 year 2023/2024 - B, 
 year 2024/2025 - C,
@@ -179,17 +160,6 @@ The liturgical year starts with the 1st Vespers (evening prayer) of the First Su
 A - 27.11.2022 - 02.12.2023
 B - 03.12.2023 - 30.11.2024
 C - 01.12.2024 - 29.11.2025'
-=======
-rok liturgiczny 2022/2023 był rokiem A, 
-rok 2023/2024 to rok B, 
-rok 2024/2025 to rok C,
-
-Rok liturgiczny rozpoczyna się zawsze od I Nieszporów I Niedzieli Adwentu
-
-Rok A - 27.11.2022 - 02.12.2023
-Rok B - 03.12.2023 - 30.11.2024
-ROK C - 01.12.2024 - 29.11.2025'
->>>>>>> 33a1c7c9265e820aba9a9251352c41e0120b3e7c
 
 y_a <- liturgical_readings$y2022[331:365, ]
 y_a <- rbind(y_a, liturgical_readings$y2023[1:336,])
