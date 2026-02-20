@@ -176,7 +176,7 @@ bt <- bt_by_chapter |> group_by(book) |>
                         arrange(id) |> select(4,5,1,6,2,3)
 
 # PROBLEM: Kpł 14, 26
-# the doesn't have the correct structure: is not captured by the html parser
+# the verse doesn't have the correct structure: is not captured by the html parser
 # HTML structure
 
 rm(df, url, missing_verses, st, nt, res, res2, page, ids, nulls, rows)
