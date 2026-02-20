@@ -39,12 +39,19 @@ get_verse_numbers <- function(n) {
 # but 76 numbers in this range don't correspond to valid pages
 
 ids <- c(1:1401)
+load("empty_BT_pages.RData")
+ids <- ids[-nulls]
 
-res <- lapply(ids, get_verse_numbers)
-nulls <- which(sapply(res, is.null)) 
-res <- res[-nulls]
+# preallocate a list
+n_pages <- length(ids)
+results <- vector("list", n_pages)
 
-bt_by_chapter <- do.call(rbind, res) 
+for (i in ids) {
+  res[[i]] <- get_verse_numbers(i)
+}
+
+
+bt_by_chapter <- bind_rows(res)  
 bt_by_chapter$chapter <- as.integer(bt_by_chapter$chapter)
 names(bt_by_chapter)[3] <- "v_count"
 
@@ -147,6 +154,19 @@ missing_verses <- data.frame(id = c(22, 22, 28),
 bt_by_chapter <- rbind(bt_by_chapter, missing_verses)
 bt_by_chapter <- bt_by_chapter |> arrange(id, chapter)
 
+# PROBLEM: Kpł 14, 26
+# the doesn't have the correct structure: is not captured by the html parser
+# HTML structure
+
+html_snippet <- '<a name="W25"></a><span class="werset">25&nbsp;</span>Potem zabije baranka [ofiary] zadośćuczynienia. .... 
+<werset nr="26"/Kapłan wyleje trochę oliwy na swą lewą dłoń, 
+<a name="W27"></a><span class="werset">27&nbsp;</span>po czym kapłan pokropi siedem razy przed Panem .... 
+'
+
+'Kpł 14 should have 57 verses and has 55 according to the number of W tags'
+
+bt_by_chapter[104,5] <- 57
+
 # add chapter and verse counts
 
 bt <- bt_by_chapter |> group_by(book) |> 
@@ -154,6 +174,10 @@ bt <- bt_by_chapter |> group_by(book) |>
                                  v_count = sum(v_count), .groups = "drop") |> 
                         left_join(bt |> select(id, part, book, full_name)) |>  
                         arrange(id) |> select(4,5,1,6,2,3)
+
+# PROBLEM: Kpł 14, 26
+# the doesn't have the correct structure: is not captured by the html parser
+# HTML structure
 
 rm(df, url, missing_verses, st, nt, res, res2, page, ids, nulls, rows)
 
